@@ -24,10 +24,10 @@
             </objects>
             <point key="canvasLocation" x="35" y="118"/>
         </scene>
-        <!--View Controller-->
+        <!--Movies List View Controller-->
         <scene sceneID="dYX-w7-muA">
             <objects>
-                <viewController id="DdE-KC-UNG" sceneMemberID="viewController">
+                <viewController id="DdE-KC-UNG" customClass="TMDBMoviesListViewController" customModule="TMDB" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="saS-Nr-VMV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -72,6 +72,9 @@
                             <constraint firstItem="uOt-DA-Lia" firstAttribute="top" secondItem="asP-0K-MMb" secondAttribute="top" id="l7N-lO-PSU"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="moviesCollectionView" destination="7Jx-cJ-5Rk" id="f3h-fZ-5Og"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sqP-4u-jcw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

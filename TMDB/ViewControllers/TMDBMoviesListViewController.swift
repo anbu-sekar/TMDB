@@ -11,10 +11,10 @@ import Alamofire
 
 class TMDBMoviesListViewController: TMDBViewController {
 
-    var viewModel: TMDBViewModel = TMDBViewModel(Movies: MoviesListModel())
+    @IBOutlet weak var moviesCollectionView: UICollectionView!
     
-    
-   
+    var viewModel: TMDBViewModel = TMDBViewModel(Movies: TMDBMoviesListModel())
+    var dataSource: TMDBMoviesList?
     
     // MARK: - View life cycle methods
     
@@ -23,17 +23,34 @@ class TMDBMoviesListViewController: TMDBViewController {
         
     }
 
+    // MARK: - Custom methods
+    
     override func customiseUI() {
         super.customiseUI()
-        viewModel.fetchMovies { withResponse, successStatus in
-            print(withResponse)
-        } failureBlock: { withResponse, failureStatus in
-            print(withResponse)
-        }
-
-
-
+       fetchMoviesList()
+       
     }
    
+    func fetchMoviesList() {
+        viewModel.fetchMovies { withResponse, successStatus in
+            dataSource = withResponse
+        } failureBlock: { withResponse, failureStatus in
+            //wait for update
+        }
+    }
     
 }
+
+extension TMDBMoviesListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+ 
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+    }
+    
+    
+}
+

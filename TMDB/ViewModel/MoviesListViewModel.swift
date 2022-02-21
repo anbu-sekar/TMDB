@@ -12,13 +12,13 @@ import Alamofire
 
 
 class TMDBViewModel {
-    var model: MoviesListModel
+    var model: TMDBMoviesListModel
     
-    init(Movies: MoviesListModel) {
-        self.model = MoviesListModel()
+    init(Movies: TMDBMoviesListModel) {
+        self.model = TMDBMoviesListModel()
     }
     
-    func fetchMovies(successBlock: @escaping MoviesListModelProtocol.SuccessBlock, failureBlock: @escaping MoviesListModelProtocol.FailureBlock) {
+    func fetchMovies(successBlock: @escaping TMDBMoviesListModelProtocol.SuccessBlock, failureBlock: @escaping TMDBMoviesListModelProtocol.FailureBlock) {
         model.MoviesList { withResponse, successStatus in
             successBlock(withResponse, successStatus)
         } failureBlock: { withResponse, failureStatus in

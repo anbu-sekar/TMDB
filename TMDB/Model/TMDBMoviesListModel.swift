@@ -64,19 +64,19 @@ enum OriginalLanguage: String, Codable {
 }
 
 
-protocol MoviesListModelProtocol {
+protocol TMDBMoviesListModelProtocol {
     
     typealias SuccessBlock = (_ withResponse: TMDBMoviesList, _ successStatus: Bool?) -> Void
     typealias FailureBlock = (_ withResponse: AFError?, _ failureStatus: Bool?) -> Void
     
     
-    func MoviesList(successBlock: @escaping MoviesListModelProtocol.SuccessBlock, failureBlock: @escaping FailureBlock)
+    func MoviesList(successBlock: @escaping TMDBMoviesListModelProtocol.SuccessBlock, failureBlock: @escaping FailureBlock)
     
 }
 
-class MoviesListModel: NSObject, MoviesListModelProtocol  {
+class TMDBMoviesListModel: NSObject, TMDBMoviesListModelProtocol  {
     
-    func MoviesList(successBlock: @escaping MoviesListModelProtocol.SuccessBlock, failureBlock: @escaping FailureBlock) {
+    func MoviesList(successBlock: @escaping TMDBMoviesListModelProtocol.SuccessBlock, failureBlock: @escaping FailureBlock) {
         _ = TMDBAlamofire.getRequest(url: URL(string: pathForGetNowPlayingList)!, parameters: nil, successBlock: { withResponse, status in
             if let response = withResponse?.data {
                 do {
@@ -91,7 +91,6 @@ class MoviesListModel: NSObject, MoviesListModelProtocol  {
                 failureBlock(nil, false)
             }
         }, failureBlock: { withError, cancelStatus in
-            print(withError)
             failureBlock(withError, false)
         })
     }
