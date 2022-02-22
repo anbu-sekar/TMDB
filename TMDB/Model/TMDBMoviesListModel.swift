@@ -66,17 +66,28 @@ enum OriginalLanguage: String, Codable {
 
 protocol TMDBMoviesListModelProtocol {
     
-    typealias SuccessBlock = (_ withResponse: TMDBMoviesList, _ successStatus: Bool?) -> Void
+    typealias SuccessBlock = (_ withResponse: AFDataResponse<Any>?, _ successStatus: Bool?) -> Void
     typealias FailureBlock = (_ withResponse: AFError?, _ failureStatus: Bool?) -> Void
+    typealias TMDBMoviesListSuccessBlock = (_ withResponse: TMDBMoviesList, _ successStatus: Bool?) -> Void
+
     
-    
-    func MoviesList(successBlock: @escaping TMDBMoviesListModelProtocol.SuccessBlock, failureBlock: @escaping FailureBlock)
+    func MoviesList(successBlock: @escaping TMDBMoviesListModelProtocol.TMDBMoviesListSuccessBlock, failureBlock: @escaping FailureBlock)
+    func getMoviePoster(path: String, successBlock: @escaping SuccessBlock, failureBlock: @escaping FailureBlock)
     
 }
 
 class TMDBMoviesListModel: NSObject, TMDBMoviesListModelProtocol  {
+  
+    func getMoviePoster(path: String, successBlock: @escaping SuccessBlock, failureBlock: @escaping FailureBlock) {
+        _ = TMDBAlamofire.getRequest(url: URL(string: moviePostBaseUrl)!, parameters: nil, successBlock: { withResponse, status in
+            successBlock(withResponse, true)
+        }, failureBlock: { withError, cancelStatus in
+            failureBlock(withError, false)
+        })
+    }
     
-    func MoviesList(successBlock: @escaping TMDBMoviesListModelProtocol.SuccessBlock, failureBlock: @escaping FailureBlock) {
+    
+    func MoviesList(successBlock: @escaping TMDBMoviesListModelProtocol.TMDBMoviesListSuccessBlock, failureBlock: @escaping FailureBlock) {
         _ = TMDBAlamofire.getRequest(url: URL(string: pathForGetNowPlayingList)!, parameters: nil, successBlock: { withResponse, status in
             if let response = withResponse?.data {
                 do {
@@ -94,5 +105,7 @@ class TMDBMoviesListModel: NSObject, TMDBMoviesListModelProtocol  {
             failureBlock(withError, false)
         })
     }
+    
+    
     
 }

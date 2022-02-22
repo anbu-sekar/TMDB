@@ -3,6 +3,7 @@
 
 target 'TMDB' do
   pod 'Alamofire', '~> 5.4.3'
+  pod 'AlamofireImage'
 
   target 'TMDBTests' do
     inherit! :search_paths

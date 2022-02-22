@@ -18,7 +18,7 @@ class TMDBViewModel {
         self.model = TMDBMoviesListModel()
     }
     
-    func fetchMovies(successBlock: @escaping TMDBMoviesListModelProtocol.SuccessBlock, failureBlock: @escaping TMDBMoviesListModelProtocol.FailureBlock) {
+    func fetchMovies(successBlock: @escaping TMDBMoviesListModelProtocol.TMDBMoviesListSuccessBlock, failureBlock: @escaping TMDBMoviesListModelProtocol.FailureBlock) {
         model.MoviesList { withResponse, successStatus in
             successBlock(withResponse, successStatus)
         } failureBlock: { withResponse, failureStatus in
@@ -26,4 +26,13 @@ class TMDBViewModel {
         }
     }
 
+    func getMoviePoster(path: String, successBlock: @escaping TMDBMoviesListModelProtocol.SuccessBlock, failureBlock: @escaping TMDBMoviesListModelProtocol.FailureBlock) {
+        model.getMoviePoster(path: path) { withResponse, successStatus in
+            successBlock(withResponse, successStatus)
+        } failureBlock: { withResponse, failureStatus in
+            failureBlock(withResponse, failureStatus)
+        }
+
+    }
+    
 }
