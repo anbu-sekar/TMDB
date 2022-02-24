@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15252F6727C7E0360024E30C /* TMDBMoviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15252F6627C7E0360024E30C /* TMDBMoviewDetailViewController.swift */; };
 		1555971227C2347800F5FEA6 /* TMDBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555971127C2347800F5FEA6 /* TMDBViewController.swift */; };
 		1555971627C235B400F5FEA6 /* MoviesList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1555971527C235B400F5FEA6 /* MoviesList.storyboard */; };
 		1555971A27C2364400F5FEA6 /* TMDBMoviesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555971927C2364400F5FEA6 /* TMDBMoviesListViewController.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15252F6627C7E0360024E30C /* TMDBMoviewDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBMoviewDetailViewController.swift; sourceTree = "<group>"; };
 		1555971127C2347800F5FEA6 /* TMDBViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBViewController.swift; sourceTree = "<group>"; };
 		1555971527C235B400F5FEA6 /* MoviesList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MoviesList.storyboard; sourceTree = "<group>"; };
 		1555971927C2364400F5FEA6 /* TMDBMoviesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBMoviesListViewController.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				1573656227C21EE3007A22F5 /* ViewController.swift */,
 				1555971127C2347800F5FEA6 /* TMDBViewController.swift */,
 				1555971927C2364400F5FEA6 /* TMDBMoviesListViewController.swift */,
+				15252F6627C7E0360024E30C /* TMDBMoviewDetailViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				15E4AFDD27C3289E0036B756 /* TMDBSession.swift in Sources */,
 				1555971F27C24DEC00F5FEA6 /* MoviesCollectionViewCell.swift in Sources */,
 				1555973027C2894200F5FEA6 /* MoviesListViewModel.swift in Sources */,
+				15252F6727C7E0360024E30C /* TMDBMoviewDetailViewController.swift in Sources */,
 				1555972E27C287C200F5FEA6 /* TMDBMoviesListModel.swift in Sources */,
 				1555972A27C27F4400F5FEA6 /* Constants.swift in Sources */,
 			);

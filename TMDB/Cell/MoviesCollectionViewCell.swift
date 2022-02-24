@@ -29,7 +29,7 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     func updateCell(with movies: Movies) {
         MoviesImageView.layer.cornerRadius = 5
         if let backdropPath = movies.backdropPath {
-            if let imageUrl = URL(string: (moviePostBaseUrl+"\(backdropPath)")) {
+            if let imageUrl = URL(string: (backdropBaseUrl+"\(backdropPath)")) {
                 MoviesImageView.af.setImage(withURL: imageUrl)
             }
         }

@@ -38,8 +38,7 @@ class TMDBViewController: UIViewController {
     // MARK: - Custom methods
     
     func customiseUI() {
-        
-        
+        self.navigationController?.isNavigationBarHidden = true
     }
 
 }
