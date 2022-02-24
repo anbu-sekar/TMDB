@@ -27,7 +27,7 @@ let backdropBaseUrl = "https://image.tmdb.org/t/p/original"
 
 // URL Paths
 
-let pathForGetNowPlayingList = "\(baseUrl)now_playing?api_key=\(apiKey)"
+let pathForGetNowPlayingList = "\(baseUrl)now_playing?api_key=\(apiKey)&page="
 
 
 
