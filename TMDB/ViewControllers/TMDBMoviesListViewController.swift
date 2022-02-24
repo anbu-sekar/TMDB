@@ -11,6 +11,7 @@ import Alamofire
 
 class TMDBMoviesListViewController: TMDBViewController {
 
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var moviesCollectionView: UICollectionView!
     
     var viewModel: TMDBViewModel = TMDBViewModel(Movies: TMDBMoviesListModel())
@@ -27,8 +28,9 @@ class TMDBMoviesListViewController: TMDBViewController {
     
     override func customiseUI() {
         super.customiseUI()
+        
         moviesCollectionView.register(UINib(nibName: "MoviesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: MoviesCollectionViewCell.identifier)
-        moviesCollectionView.register(UINib(nibName: "MoviesWithTitleCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "MoviesWithTitleCollectionViewCell")
+        moviesCollectionView.register(UINib(nibName: "MoviesWithTitleCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: MoviesWithTitleCollectionViewCell.identifier)
        fetchMoviesList()
     }
    
@@ -46,36 +48,37 @@ class TMDBMoviesListViewController: TMDBViewController {
         }
     }
     
+    func filterSearchResults(withText: String) {
+        if withText.isEmpty == false {
+            viewModel.searchedmovies = viewModel.dataSource?.results?.filter { list in
+                return ((list.title.lowercased().contains(withText.lowercased())) || (list.originalTitle.lowercased().contains(withText.lowercased())))
+            }
+        }
+        viewModel.searchedmovies = withText.isEmpty ? nil : viewModel.searchedmovies
+        moviesCollectionView.reloadData()
+    }
     
 }
 
 extension TMDBMoviesListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
  
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.dataSource?.results?.count ?? 0
+        return viewModel.moviesList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        if let movies = viewModel.dataSource?.results![indexPath.row] {
-            if movies.voteAverage > 7 {
-                if let cell: MoviesCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesCollectionViewCell.identifier, for: indexPath) as? MoviesCollectionViewCell {
-                    if let movies = viewModel.dataSource?.results?[indexPath.row] {
-                        cell.updateCell(with: movies)
-                    }
-                    return cell
-                }
-            } else {
-                if let cell: MoviesWithTitleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesWithTitleCollectionViewCell.identifier, for: indexPath) as? MoviesWithTitleCollectionViewCell {
-                    if let movies = viewModel.dataSource?.results?[indexPath.row] {
-                        cell.updateCell(with: movies)
-                    }
-                    return cell
-                }
+        if viewModel.moviesList[indexPath.row].voteAverage > 7 {
+            if let cell: MoviesCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesCollectionViewCell.identifier, for: indexPath) as? MoviesCollectionViewCell {
+                cell.updateCell(with: viewModel.moviesList[indexPath.row])
+                return cell
+            }
+        } else {
+            if let cell: MoviesWithTitleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesWithTitleCollectionViewCell.identifier, for: indexPath) as? MoviesWithTitleCollectionViewCell {
+                cell.updateCell(with: viewModel.moviesList[indexPath.row])
+                return cell
             }
         }
-        
-         return UICollectionViewCell()
+        return UICollectionViewCell()
     }
      
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -85,7 +88,6 @@ extension TMDBMoviesListViewController: UICollectionViewDelegate, UICollectionVi
             } else {
                 return CGSize(width: collectionView.frame.width, height: (collectionView.frame.width-100))
             }
-            
         }
         return CGSize(width: 0, height: 0)
     }
@@ -95,5 +97,13 @@ extension TMDBMoviesListViewController: UICollectionViewDelegate, UICollectionVi
             fetchMoviesList(page: (viewModel.dataSource?.page ?? 0) + 1)
         }
     }
+    
 }
 
+extension TMDBMoviesListViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filterSearchResults(withText: searchText)
+    }
+ 
+}

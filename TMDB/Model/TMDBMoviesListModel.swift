@@ -34,7 +34,7 @@ struct Movies: Codable {
     let backdropPath: String?
     let genreIDS: [Int]
     let id: Int
-    let originalTitle: String?
+    let originalTitle: String
     let overview: String
     let popularity: Double
     let posterPath, releaseDate, title: String
@@ -85,10 +85,8 @@ class TMDBMoviesListModel: NSObject, TMDBMoviesListModelProtocol  {
                     successBlock(settings, status)
                 }
                 catch {
-                    print(error)
                     print(error.localizedDescription)
                     failureBlock(nil, status)
-                    
                 }
 
             } else {
@@ -98,7 +96,5 @@ class TMDBMoviesListModel: NSObject, TMDBMoviesListModelProtocol  {
             failureBlock(withError, false)
         })
     }
-    
-    
     
 }

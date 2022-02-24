@@ -16,6 +16,12 @@ class TMDBViewModel {
     var model: TMDBMoviesListModel
     var dataSource: TMDBMoviesList?
     
+    var searchedmovies: [Movies]?
+    
+    var moviesList: [Movies] {
+        return searchedmovies == nil ? (dataSource?.results ?? []) : (searchedmovies ?? [])
+    }
+    
     init(Movies: TMDBMoviesListModel) {
         self.model = TMDBMoviesListModel()
     }
