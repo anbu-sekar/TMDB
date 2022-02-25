@@ -26,8 +26,7 @@ class TMDBViewModel {
         self.model = TMDBMoviesListModel()
     }
     
-    func fetchMovies(page: Int, successBlock: @escaping TMDBMoviesListModelProtocol.TMDBMoviesListSuccessBlock, failureBlock: @escaping TMDBMoviesListModelProtocol.FailureBlock) {
-        
+    func fetchMovies(page: Int, successBlock: @escaping TMDBMoviesListModelProtocol.TMDBMoviesListSuccessBlock, failureBlock: @escaping TMDBMoviesListModelProtocol.TMDBMoviesListFailureBlock) {
         model.MoviesList(page: page) { withResponse, successStatus in
             successBlock(withResponse, successStatus)
         } failureBlock: { withResponse, failureStatus in

@@ -12,11 +12,17 @@ protocol MoviesWithTitleCollectionViewCellDelegate: AnyObject {
     func didPressDeleteButton(at indexPath: IndexPath)
 }
 
-class MoviesWithTitleCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
+class MoviesWithTitleCollectionViewCell: UICollectionViewCell {
+    
+    
+    // MARK: - Outlets
     
     @IBOutlet weak var movieImage: UIImageView!
     @IBOutlet weak var moviewDescription: UILabel!
     @IBOutlet weak var movieTitle: UILabel!
+    
+    
+    // MARK: - Variable Declarations
     
     static let identifier = "MoviesWithTitleCollectionViewCell"
     weak var delegate: MoviesWithTitleCollectionViewCellDelegate?
@@ -27,9 +33,12 @@ class MoviesWithTitleCollectionViewCell: UICollectionViewCell, UIGestureRecogniz
     
     override class func awakeFromNib() {
         super.awakeFromNib()
-      
+        // do nothing
     }
-
+    
+    
+    // MARK: - Custom methods
+    
     func updateCell(indexPath: IndexPath, with movies: Movies) {
         currentIndex = indexPath
         if let imageUrl = URL(string: (backdropBaseUrl+"\(movies.posterPath)")) {
@@ -46,5 +55,4 @@ class MoviesWithTitleCollectionViewCell: UICollectionViewCell, UIGestureRecogniz
         }
     }
     
-
 }

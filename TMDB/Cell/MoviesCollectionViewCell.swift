@@ -7,16 +7,21 @@
 
 import Foundation
 import UIKit
-import Alamofire
-import AlamofireImage
 
 protocol MoviesCollectionViewCellDelegate: AnyObject {
     func didPressDeleteButton(at indexPath: IndexPath)
 }
 
+
 class MoviesCollectionViewCell: UICollectionViewCell {
     
+    
+    // MARK: - Outlets
+    
     @IBOutlet weak var MoviesImageView: UIImageView!
+    
+    
+    // MARK: - Variables
     
     static let identifier = "MoviesCollectionViewCell"
     var currentIndex: IndexPath?
@@ -31,6 +36,7 @@ class MoviesCollectionViewCell: UICollectionViewCell {
     }
     
     
+    // MARK: - Custom methods
     
     func updateCell(with movies: Movies, at index: IndexPath) {
         currentIndex = index

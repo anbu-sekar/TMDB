@@ -9,13 +9,19 @@ import Foundation
 import UIKit
 import Alamofire
 
-class TMDBMoviesListViewController: TMDBViewController, UIGestureRecognizerDelegate {
+class TMDBMoviesListViewController: TMDBViewController {
+    
+    
+    // MARK: - Outlets
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var moviesCollectionView: UICollectionView!
     
+    
+    // MARK: - Variable declaration
+    
     var viewModel: TMDBViewModel = TMDBViewModel(Movies: TMDBMoviesListModel())
-    var panGesture: UIGestureRecognizer!
+    
     
     // MARK: - View life cycle methods
     
@@ -45,7 +51,8 @@ class TMDBMoviesListViewController: TMDBViewController, UIGestureRecognizerDeleg
             }
             self.moviesCollectionView.reloadData()
         } failureBlock: { withResponse, failureStatus in
-            // noting on it
+            self.showAlert(message: withResponse?.localizedDescription)
+         
         }
     }
     
@@ -129,7 +136,7 @@ extension TMDBMoviesListViewController: MoviesWithTitleCollectionViewCellDelegat
         moviesCollectionView.performBatchUpdates {
             moviesCollectionView.deleteItems(at: [indexPath])
         } completion: { Status in
-
+            
         }
     }
     
