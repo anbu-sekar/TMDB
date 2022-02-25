@@ -9,11 +9,11 @@ import Foundation
 import Alamofire
 
 
-// MARK: - Welcome
+// MARK: - MoviesList
 struct TMDBMoviesList: Codable {
     let dates: Dates
-    let page: Int
-    let results: [Movies]
+    var page: Int
+    var results: [Movies]?
     let totalPages, totalResults: Int
     
     enum CodingKeys: String, CodingKey {
@@ -28,14 +28,15 @@ struct Dates: Codable {
     let maximum, minimum: String
 }
 
-// MARK: - Result
+// MARK: - Movies
 struct Movies: Codable {
     let adult: Bool
-    let backdropPath: String
+    let backdropPath: String?
     let genreIDS: [Int]
     let id: Int
-    let originalLanguage: OriginalLanguage
-    let originalTitle, overview: String
+    let originalLanguage: String?
+    let originalTitle: String
+    let overview: String
     let popularity: Double
     let posterPath, releaseDate, title: String
     let video: Bool
@@ -58,26 +59,32 @@ struct Movies: Codable {
     }
 }
 
-enum OriginalLanguage: String, Codable {
-    case en = "en"
-    case ja = "ja"
+struct TMDBErrorResponse: Codable {
+    let statusMessage: String
+    let success: Bool
+    let statusCode: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case statusMessage = "status_message"
+        case success
+        case statusCode = "status_code"
+    }
 }
 
 
 protocol TMDBMoviesListModelProtocol {
     
-    typealias SuccessBlock = (_ withResponse: TMDBMoviesList, _ successStatus: Bool?) -> Void
-    typealias FailureBlock = (_ withResponse: AFError?, _ failureStatus: Bool?) -> Void
+    typealias TMDBMoviesListFailureBlock = (_ withResponse: AFError?, _ failureStatus: Bool?) -> Void
+    typealias TMDBMoviesListSuccessBlock = (_ withResponse: TMDBMoviesList, _ successStatus: Bool?) -> Void
     
-    
-    func MoviesList(successBlock: @escaping TMDBMoviesListModelProtocol.SuccessBlock, failureBlock: @escaping FailureBlock)
+    func MoviesList(page:Int, successBlock: @escaping TMDBMoviesListModelProtocol.TMDBMoviesListSuccessBlock, failureBlock: @escaping TMDBMoviesListFailureBlock)
     
 }
 
 class TMDBMoviesListModel: NSObject, TMDBMoviesListModelProtocol  {
     
-    func MoviesList(successBlock: @escaping TMDBMoviesListModelProtocol.SuccessBlock, failureBlock: @escaping FailureBlock) {
-        _ = TMDBAlamofire.getRequest(url: URL(string: pathForGetNowPlayingList)!, parameters: nil, successBlock: { withResponse, status in
+    func MoviesList(page: Int, successBlock: @escaping TMDBMoviesListModelProtocol.TMDBMoviesListSuccessBlock, failureBlock: @escaping TMDBMoviesListFailureBlock) {
+        _ = TMDBAlamofire.getRequest(url: URL(string: "\(pathForGetNowPlayingList)\(page)")!, parameters: nil, successBlock: { withResponse, status in
             if let response = withResponse?.data {
                 do {
                     let settings = try JSONDecoder().decode(TMDBMoviesList.self, from: response)
@@ -86,7 +93,6 @@ class TMDBMoviesListModel: NSObject, TMDBMoviesListModelProtocol  {
                 catch {
                     failureBlock(nil, status)
                 }
-
             } else {
                 failureBlock(nil, false)
             }
