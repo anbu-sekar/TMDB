@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+protocol MoviesWithTitleCollectionViewCellDelegate: AnyObject {
+    func didPressDeleteButton(at indexPath: IndexPath)
+}
+
 class MoviesWithTitleCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var movieImage: UIImageView!
@@ -15,9 +19,9 @@ class MoviesWithTitleCollectionViewCell: UICollectionViewCell, UIGestureRecogniz
     @IBOutlet weak var movieTitle: UILabel!
     
     static let identifier = "MoviesWithTitleCollectionViewCell"
-    var pan: UIPanGestureRecognizer!
-    var deleteLabel1: UILabel!
-    var deleteLabel2: UILabel!
+    weak var delegate: MoviesWithTitleCollectionViewCellDelegate?
+    var currentIndex: IndexPath?
+    
     
     // MARK: - Init methods
     
@@ -26,7 +30,8 @@ class MoviesWithTitleCollectionViewCell: UICollectionViewCell, UIGestureRecogniz
       
     }
 
-    func updateCell(with movies: Movies) {
+    func updateCell(indexPath: IndexPath, with movies: Movies) {
+        currentIndex = indexPath
         if let imageUrl = URL(string: (backdropBaseUrl+"\(movies.posterPath)")) {
             movieImage.layer.cornerRadius = 5
             movieImage.af.setImage(withURL: imageUrl)
@@ -34,5 +39,12 @@ class MoviesWithTitleCollectionViewCell: UICollectionViewCell, UIGestureRecogniz
             moviewDescription.text = movies.overview
         }
     }
+    
+    @IBAction func deleteButtonTapped(_ sender: Any) {
+        if let currentPosition = currentIndex {
+            delegate?.didPressDeleteButton(at : currentPosition)
+        }
+    }
+    
 
 }

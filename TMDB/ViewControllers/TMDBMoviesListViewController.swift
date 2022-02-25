@@ -70,12 +70,14 @@ extension TMDBMoviesListViewController: UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if viewModel.moviesList[indexPath.row].voteAverage > 7 {
             if let cell: MoviesCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesCollectionViewCell.identifier, for: indexPath) as? MoviesCollectionViewCell {
-                cell.updateCell(with: viewModel.moviesList[indexPath.row])
+                cell.updateCell(with: viewModel.moviesList[indexPath.row], at: indexPath)
+                cell.delegate = self
                 return cell
             }
         } else {
             if let cell: MoviesWithTitleCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: MoviesWithTitleCollectionViewCell.identifier, for: indexPath) as? MoviesWithTitleCollectionViewCell {
-                cell.updateCell(with: viewModel.moviesList[indexPath.row])
+                cell.updateCell(indexPath: indexPath, with: viewModel.moviesList[indexPath.row])
+                cell.delegate = self
                 return cell
             }
         }
@@ -94,7 +96,7 @@ extension TMDBMoviesListViewController: UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if ((viewModel.dataSource?.results?.count ?? 0)-5) == indexPath.row {
+        if ((viewModel.dataSource?.results?.count ?? 0)-3) == indexPath.row {
             fetchMoviesList(page: (viewModel.dataSource?.page ?? 0) + 1)
         }
     }
@@ -116,6 +118,19 @@ extension TMDBMoviesListViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filterSearchResults(withText: searchText)
+    }
+    
+}
+
+extension TMDBMoviesListViewController: MoviesWithTitleCollectionViewCellDelegate, MoviesCollectionViewCellDelegate {
+    
+    func didPressDeleteButton(at indexPath: IndexPath) {
+        self.viewModel.dataSource?.results?.remove(at: indexPath.row)
+        moviesCollectionView.performBatchUpdates {
+            moviesCollectionView.deleteItems(at: [indexPath])
+        } completion: { Status in
+
+        }
     }
     
 }
